@@ -75,6 +75,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\Scripts\AngleDirection.cs" />
     <Compile Include="Assets\Scripts\AreaOfAttack.cs" />
     <Compile Include="Assets\Scripts\AreaOfDetection.cs" />
     <Compile Include="Assets\Scripts\DeathByTime.cs" />

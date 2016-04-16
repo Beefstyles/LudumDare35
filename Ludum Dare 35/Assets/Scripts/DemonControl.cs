@@ -17,7 +17,7 @@ public class DemonControl : MonoBehaviour {
     private GameObject ProjectileClone;
     public GameObject ShootPoint;
     public GameObject Projectile;
-    private float projectileForce = 100F;
+    private float projectileForce = 200F;
     private Rigidbody2D demonRigidBody;
     private bool AIMoveRight;
     private float movementReset = 5F;
@@ -26,19 +26,21 @@ public class DemonControl : MonoBehaviour {
     public GameObject TargetToMoveTo;
     public float dirNum;
     public Vector3 movementHeading;
+    AngleDirection AngleDir;
 
     void Start ()
     {
         speed = 2F;
         fireRate = 0F;
-        HumanPlayer = false;
+        HumanPlayer = true;
         demonRigidBody = GetComponent<Rigidbody2D>();
+        AngleDir = FindObjectOfType<AngleDirection>();
     }
 	
 	// Update is called once per frame
 	void Update ()
     {
-        if (TargetAcquired)
+        if (TargetAcquired && !HumanPlayer)
         {
             TargetShooting();
         }
@@ -52,6 +54,11 @@ public class DemonControl : MonoBehaviour {
             AIMovement();
         }
 
+        if (HumanPlayer)
+        {
+            HumanMovement();
+        }
+
         if(movementReset >= 0)
         {
             movementReset -= Time.deltaTime;
@@ -60,7 +67,7 @@ public class DemonControl : MonoBehaviour {
         if(movementReset <= 0)
         {
             movementBinary = Mathf.RoundToInt(Random.value);
-            movementReset = 5F;
+            movementReset = Random.Range(2, 6);
             if (movementBinary == 1)
             {
                 AIMoveRight = true;
@@ -95,6 +102,17 @@ public class DemonControl : MonoBehaviour {
                 }
             }
         }
+
+        if (HumanPlayer)
+        {
+            if (fireRate <= 0)
+            {
+                fireRate = fireRateChoice;
+                ProjectileClone = Instantiate(Projectile, ShootPoint.transform.position, Quaternion.identity) as GameObject;
+                ProjectileClone.GetComponent<Rigidbody2D>().AddForce(Vector3.down * projectileForce);
+                fireRate = fireRateChoice;
+            }
+        }
     }
 
     void AIMovement()
@@ -118,7 +136,7 @@ public class DemonControl : MonoBehaviour {
             {
                 //Adapted from http://forum.unity3d.com/threads/left-right-test-function.31420/
                 movementHeading = TargetToMoveTo.transform.position - transform.position;
-                dirNum = AngleDir(transform.forward, movementHeading, transform.up);
+                dirNum = AngleDir.AngleDir(transform.forward, movementHeading, transform.up);
                 if (dirNum == 1)
                 {
                     demonRigidBody.velocity = new Vector2(speed, demonRigidBody.velocity.y);
@@ -133,22 +151,15 @@ public class DemonControl : MonoBehaviour {
 
     }
 
-    public float AngleDir(Vector3 fwd, Vector3 targetDir, Vector3 up)
+    void HumanMovement()
     {
-        Vector3 perp = Vector3.Cross(fwd, targetDir);
-        float dir = Vector3.Dot(perp, up);
-
-        if(dir > 0F)
+        float x = Input.GetAxis("Horizontal") * Time.deltaTime * speed;
+        float y = Input.GetAxis("Vertical") * Time.deltaTime * speed;
+        transform.Translate(x, y, 0);
+        if (Input.GetButton("Fire1"))
         {
-            return 1F;
-        }
-        else if (dir < 0F)
-        {
-            return -1F;
-        }
-        else
-        {
-            return 0F;
+            TargetShooting();
         }
     }
+    
 }
