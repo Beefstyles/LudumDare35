@@ -25,7 +25,7 @@ public class DemonControl : MonoBehaviour {
     public bool PlayerFound;
     public GameObject TargetToMoveTo;
     public float dirNum;
-    Vector3 movementHeading;
+    public Vector3 movementHeading;
 
     void Start ()
     {
@@ -116,22 +116,24 @@ public class DemonControl : MonoBehaviour {
         {
             if(TargetToMoveTo != null)
             {
+                //Adapted from http://forum.unity3d.com/threads/left-right-test-function.31420/
                 movementHeading = TargetToMoveTo.transform.position - transform.position;
                 dirNum = AngleDir(transform.forward, movementHeading, transform.up);
                 if (dirNum == 1)
                 {
                     demonRigidBody.velocity = new Vector2(speed, demonRigidBody.velocity.y);
                 }
-                else
+                else if(dirNum == -1)
                 {
                     demonRigidBody.velocity = new Vector2(-speed, demonRigidBody.velocity.y);
                 }
+                
             }
         }
 
     }
 
-    float AngleDir(Vector3 fwd, Vector3 targetDir, Vector3 up)
+    public float AngleDir(Vector3 fwd, Vector3 targetDir, Vector3 up)
     {
         Vector3 perp = Vector3.Cross(fwd, targetDir);
         float dir = Vector3.Dot(perp, up);

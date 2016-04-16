@@ -3,23 +3,24 @@ using System.Collections;
 
 public class ProjectileControl : MonoBehaviour {
 
-    public int AttackDamage;
-    public float LifeTime;
+    private int attackDamage = 1;
+    private float lifeTime;
+    Health health;
 
 	void Start ()
     {
-        LifeTime = 4F;
+        lifeTime = 4F;
     }
 	
 	
 	void Update ()
     {
-	    if(LifeTime >= 0)
+	    if(lifeTime >= 0)
         {
-            LifeTime -= Time.deltaTime;
+            lifeTime -= Time.deltaTime;
         }
 
-        else if (LifeTime <= 0)
+        else if (lifeTime <= 0)
         {
             KillObject();
         }
@@ -34,6 +35,8 @@ public class ProjectileControl : MonoBehaviour {
     {
         if(coll.gameObject.tag == "Player")
         {
+            health = coll.GetComponent<Health>();
+            health.TakeDamage(attackDamage);
             KillObject();
         }
     }
