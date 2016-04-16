@@ -76,6 +76,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Scripts\AreaOfAttack.cs" />
+    <Compile Include="Assets\Scripts\AreaOfDetection.cs" />
     <Compile Include="Assets\Scripts\DemonControl.cs" />
     <Compile Include="Assets\Scripts\Examples\Camera2DFollow.cs" />
     <Compile Include="Assets\Scripts\Examples\Platformer2DUserControl.cs" />
@@ -83,7 +84,7 @@
     <Compile Include="Assets\Scripts\Platformer2DCharacterControl.cs" />
     <Compile Include="Assets\Scripts\PlatformerCharacterControl.cs" />
     <Compile Include="Assets\Scripts\ProjectileControl.cs" />
-    <Compile Include="Assets\WrapAroundTrigger.cs" />
+    <Compile Include="Assets\Scripts\WrapAroundTrigger.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Standard Assets\2D\CrossPlatformInput\CrossPlatformInputGuidelines.txt" />

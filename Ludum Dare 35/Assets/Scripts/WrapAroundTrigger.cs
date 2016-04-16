@@ -12,8 +12,7 @@ public class WrapAroundTrigger : MonoBehaviour {
         {
             if (gameObject.name == "WestTrigger")
             {
-                coll.gameObject.transform.position = new Vector3(EastTriggerSpawn.transform.position.x, coll.gameObject.transform.position.y, 0);
-                
+                coll.gameObject.transform.position = new Vector3(EastTriggerSpawn.transform.position.x, coll.gameObject.transform.position.y, 0);  
             }
 
             else if(gameObject.name == "EastTrigger")

@@ -27,7 +27,7 @@ public class ProjectileControl : MonoBehaviour {
 
     void KillObject()
     {
-        Destroy(this.gameObject);
+        Destroy(gameObject);
     }
 
     void OnTriggerEnter2D(Collider2D coll)

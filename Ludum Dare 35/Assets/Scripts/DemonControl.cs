@@ -18,12 +18,21 @@ public class DemonControl : MonoBehaviour {
     public GameObject ShootPoint;
     public GameObject Projectile;
     private float projectileForce = 100F;
+    private Rigidbody2D demonRigidBody;
+    private bool AIMoveRight;
+    private float movementReset = 5F;
+    private int movementBinary;
+    public bool PlayerFound;
+    public GameObject TargetToMoveTo;
+    public float dirNum;
+    Vector3 movementHeading;
 
     void Start ()
     {
-        speed = 200F;
+        speed = 2F;
         fireRate = 0F;
         HumanPlayer = false;
+        demonRigidBody = GetComponent<Rigidbody2D>();
     }
 	
 	// Update is called once per frame
@@ -36,6 +45,31 @@ public class DemonControl : MonoBehaviour {
         if(fireRate >= 0)
         {
             fireRate -= Time.deltaTime;
+        }
+
+        if (!HumanPlayer)
+        {
+            AIMovement();
+        }
+
+        if(movementReset >= 0)
+        {
+            movementReset -= Time.deltaTime;
+        }
+
+        if(movementReset <= 0)
+        {
+            movementBinary = Mathf.RoundToInt(Random.value);
+            movementReset = 5F;
+            if (movementBinary == 1)
+            {
+                AIMoveRight = true;
+            }
+
+            else
+            {
+                AIMoveRight = false;
+            }
         }
 	}
 
@@ -60,6 +94,59 @@ public class DemonControl : MonoBehaviour {
                     fireRate = fireRateChoice;
                 }
             }
+        }
+    }
+
+    void AIMovement()
+    {
+        if (!PlayerFound)
+        {
+            if (AIMoveRight)
+            {
+                demonRigidBody.velocity = new Vector2(speed, demonRigidBody.velocity.y);
+            }
+
+            else
+            {
+                demonRigidBody.velocity = new Vector2(-speed, demonRigidBody.velocity.y);
+            }
+        }
+
+        else if (PlayerFound)
+        {
+            if(TargetToMoveTo != null)
+            {
+                movementHeading = TargetToMoveTo.transform.position - transform.position;
+                dirNum = AngleDir(transform.forward, movementHeading, transform.up);
+                if (dirNum == 1)
+                {
+                    demonRigidBody.velocity = new Vector2(speed, demonRigidBody.velocity.y);
+                }
+                else
+                {
+                    demonRigidBody.velocity = new Vector2(-speed, demonRigidBody.velocity.y);
+                }
+            }
+        }
+
+    }
+
+    float AngleDir(Vector3 fwd, Vector3 targetDir, Vector3 up)
+    {
+        Vector3 perp = Vector3.Cross(fwd, targetDir);
+        float dir = Vector3.Dot(perp, up);
+
+        if(dir > 0F)
+        {
+            return 1F;
+        }
+        else if (dir < 0F)
+        {
+            return -1F;
+        }
+        else
+        {
+            return 0F;
         }
     }
 }
