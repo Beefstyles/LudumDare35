@@ -83,6 +83,7 @@
     <Compile Include="Assets\Scripts\Examples\Camera2DFollow.cs" />
     <Compile Include="Assets\Scripts\Examples\Platformer2DUserControl.cs" />
     <Compile Include="Assets\Scripts\Examples\PlatformerCharacter2D.cs" />
+    <Compile Include="Assets\Scripts\GameManagerScript.cs" />
     <Compile Include="Assets\Scripts\Health.cs" />
     <Compile Include="Assets\Scripts\Platformer2DCharacterControl.cs" />
     <Compile Include="Assets\Scripts\PlatformerCharacterControl.cs" />
