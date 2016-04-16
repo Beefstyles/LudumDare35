@@ -4,20 +4,22 @@ using System.Collections;
 public class WrapAroundTrigger : MonoBehaviour {
 
     private float Y_Position;
-    public GameObject EastTrigger, WestTrigger;
+    public GameObject EastTriggerSpawn, WestTriggerSpawn;
 
     void OnTriggerEnter2D(Collider2D coll)
     {
         if(coll.gameObject.tag == "Enemy" || coll.gameObject.tag == "Player")
         {
-            if (this.gameObject.name == "WestTrigger")
+            if (gameObject.name == "WestTrigger")
             {
-                coll.gameObject.transform.position = new Vector3(EastTrigger.transform.position.x, coll.gameObject.transform.position.y, 0);
+                coll.gameObject.transform.position = new Vector3(EastTriggerSpawn.transform.position.x, coll.gameObject.transform.position.y, 0);
+                
             }
 
-            else if(this.gameObject.name == "EastTrigger")
+            else if(gameObject.name == "EastTrigger")
             {
-                coll.gameObject.transform.position = new Vector3(WestTrigger.transform.position.x, coll.gameObject.transform.position.y, 0);
+                coll.gameObject.transform.position = new Vector3(WestTriggerSpawn.transform.position.x, coll.gameObject.transform.position.y, 0);
+
             }
         }
         
