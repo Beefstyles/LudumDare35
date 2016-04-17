@@ -13,11 +13,18 @@ public class Platformer2DCharacterControl : MonoBehaviour {
     private bool crouch;
     private float h;
     GameManagerScript gameManager;
+    private float invicTimer;
+    ParticleSystem invicParticles;
+    Collider2D[] colliders;
 
     private void Awake()
     {
         character = GetComponent<PlatformerCharacterControl>();
         gameManager = FindObjectOfType<GameManagerScript>();
+        invicTimer = 3F;
+        invicParticles = GetComponent<ParticleSystem>();
+        invicParticles.Play();
+
     }
 
     void Start()
@@ -27,6 +34,17 @@ public class Platformer2DCharacterControl : MonoBehaviour {
 
     private void Update()
     {
+        if (invicTimer >= 0)
+        {
+            invicTimer -= Time.deltaTime;
+        }
+
+        if(invicTimer <= 0 && invicParticles.isPlaying)
+        {
+            
+            invicParticles.Stop();
+        }
+
         if (gameManager.DemonControlTrue)
         {
             if (HumanPlayer)
@@ -89,7 +107,6 @@ public class Platformer2DCharacterControl : MonoBehaviour {
 
         if (HumanPlayer)
         {
-            crouch = Input.GetKey(KeyCode.LeftControl);
             h = Input.GetAxis("Horizontal");
         }
             
@@ -104,7 +121,7 @@ public class Platformer2DCharacterControl : MonoBehaviour {
                 h = -1;
             }
         }
-        character.Move(h, crouch, jump);
+        character.Move(h, jump);
         jump = false;
     }
 }

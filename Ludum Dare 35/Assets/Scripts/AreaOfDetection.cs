@@ -31,7 +31,6 @@ public class AreaOfDetection : MonoBehaviour {
                 demonControl.TargetToMoveTo = targetColl2D.gameObject;
                 demonControl.PlayerFound = true;
                 targetInSight = true;
-
             }
         }
     }

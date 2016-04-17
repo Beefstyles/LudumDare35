@@ -9,7 +9,7 @@ public class StartGame : MonoBehaviour {
         if (Input.GetButton("Fire1") || Input.GetButton("Fire2"))
         {
             CarryOverInfo.LevelNumber = 1;
-            CarryOverInfo.DemonControlRound = true;
+            CarryOverInfo.DemonControlRound = false;
             CarryOverInfo.StartLives = 1;
             CarryOverInfo.GameTimerFloat = 15;
             SceneManager.LoadScene(1);

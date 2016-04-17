@@ -14,14 +14,20 @@ public class Health : MonoBehaviour {
     void Start()
     {
         playerDead = false;
-        PlayerHealth = 1;
-        currentPlayerHealth = PlayerHealth;
+        if(gameObject.tag == "Shelter")
+        {
+            currentPlayerHealth = 1;
+        }
         gameManager = FindObjectOfType<GameManagerScript>();
+        if (!gameManager.DemonControlTrue && gameObject.tag == "Baby")
+        {
+            currentPlayerHealth = gameManager.Lives;
+        }
     }
 
     void Update()
     {
-        if (!gameManager.DemonControlTrue)
+        if (!gameManager.DemonControlTrue && gameObject.tag == "Baby")
         {
             gameManager.Lives = currentPlayerHealth;
         }
@@ -35,6 +41,7 @@ public class Health : MonoBehaviour {
             if(gameManager.DemonControlTrue)
             {
                 gameManager.Kills++;
+                gameManager.numberOfBabies--;
             }
             playerDead = true;
             StartCoroutine("PlayerDeath");
@@ -43,7 +50,10 @@ public class Health : MonoBehaviour {
 
     IEnumerator PlayerDeath()
     {
-        playerCharDead = Instantiate(PlayerDeadCorpse, gameObject.transform.position, transform.rotation) as GameObject;
+        if(gameObject.tag == "Baby")
+        {
+            playerCharDead = Instantiate(PlayerDeadCorpse, gameObject.transform.position, transform.rotation) as GameObject;
+        }
         yield return new WaitForSeconds(0.01F);
         Destroy(gameObject);
     }

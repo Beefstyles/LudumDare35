@@ -36,7 +36,7 @@ public class ProjectileControl : MonoBehaviour {
 
     void OnTriggerEnter2D(Collider2D coll)
     {
-        if(coll.gameObject.tag == "Baby")
+        if(coll.gameObject.tag == "Baby" || coll.gameObject.tag == "Shelter")
         {
             if(gameObject.tag == "KillShot")
             {
@@ -44,18 +44,20 @@ public class ProjectileControl : MonoBehaviour {
                 health.TakeDamage(attackDamage, gameObject.tag);
             }
 
-            else if(gameObject.tag == "SlowShot")
+            if(coll.gameObject.tag == "Baby")
             {
-                platformerCharacterControl = coll.GetComponentInParent<PlatformerCharacterControl>();
-                if(platformerCharacterControl.maxSpeed >= 5F)
+                if (gameObject.tag == "SlowShot")
                 {
-                    platformerCharacterControl.maxSpeed = 5F;
+                    platformerCharacterControl = coll.GetComponentInParent<PlatformerCharacterControl>();
+                    if (platformerCharacterControl.maxSpeed >= 5F)
+                    {
+                        platformerCharacterControl.maxSpeed = 5F;
+                    }
+
                 }
-                    
             }
-            
-            
             KillObject();
         }
+        
     }
 }

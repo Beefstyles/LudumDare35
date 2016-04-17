@@ -15,22 +15,30 @@ public class GameTimer : MonoBehaviour {
     private string gameTimerSecondsString;
     public float GameTimerF;
     public TimerText timerText;
+    GameManagerScript gameManager;
 
+    void Start()
+    {
+        gameManager = FindObjectOfType<GameManagerScript>();
+    }
 	void Update ()
     {
-	    if(GameTimerF >= 0)
+        if(gameManager.DelayTimer <= 0)
         {
-            GameTimerF -= Time.deltaTime;
-        }
+            if (GameTimerF >= 0)
+            {
+                GameTimerF -= Time.deltaTime;
+            }
 
-        GameTimerMinutes = Mathf.FloorToInt(GameTimerF / 60);
-        GameTimerSeconds = Mathf.FloorToInt(GameTimerF - (GameTimerMinutes * 60));
-        timerText.GameTimerTextMinutes.text = GameTimerMinutes.ToString();
-        gameTimerSecondsString = GameTimerSeconds.ToString();
-        if(gameTimerSecondsString.Length < 2)
-        {
-            gameTimerSecondsString = "0" + GameTimerSeconds;
+            GameTimerMinutes = Mathf.FloorToInt(GameTimerF / 60);
+            GameTimerSeconds = Mathf.FloorToInt(GameTimerF - (GameTimerMinutes * 60));
+            timerText.GameTimerTextMinutes.text = GameTimerMinutes.ToString();
+            gameTimerSecondsString = GameTimerSeconds.ToString();
+            if (gameTimerSecondsString.Length < 2)
+            {
+                gameTimerSecondsString = "0" + GameTimerSeconds;
+            }
+            timerText.GameTimerTextSeconds.text = gameTimerSecondsString;
         }
-        timerText.GameTimerTextSeconds.text = gameTimerSecondsString;
 	}
 }

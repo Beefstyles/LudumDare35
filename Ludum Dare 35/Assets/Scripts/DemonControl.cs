@@ -13,12 +13,12 @@ public class DemonControl : MonoBehaviour {
     public float projectileDirectionMag;
     public Vector2 projectileDirection;
     private Vector3 rotationDirection;
-    private float fireRateChoice = 2F;
+    private float fireRateChoice = 1F;
     private GameObject ProjectileClone;
     public GameObject ShootPoint;
     public GameObject ProjectileKillShot;
     public GameObject ProjectileSlowShot;
-    private float projectileForce = 200F;
+    private float projectileForce = 400F;
     private Rigidbody2D demonRigidBody;
     private bool AIMoveRight;
     private float movementReset = 5F;
@@ -32,7 +32,7 @@ public class DemonControl : MonoBehaviour {
 
     void Start ()
     {
-        speed = 2F;
+        speed = 6F;
         fireRate = 0F;
         demonRigidBody = GetComponent<Rigidbody2D>();
         AngleDir = FindObjectOfType<AngleDirection>();
@@ -122,7 +122,7 @@ public class DemonControl : MonoBehaviour {
                 fireRate = fireRateChoice;
                 if(origin == "Fire1")
                     {
-                        ProjectileClone = Instantiate(ProjectileKillShot, ShootPoint.transform.position, Quaternion.identity) as GameObject;
+                        ProjectileClone = Instantiate(ProjectileKillShot, transform.position, transform.rotation) as GameObject;
                         ProjectileClone.GetComponent<Rigidbody2D>().AddForce(Vector3.down * projectileForce);
                     }
                     else if (origin == "Fire2")
@@ -130,7 +130,6 @@ public class DemonControl : MonoBehaviour {
                         ProjectileClone = Instantiate(ProjectileSlowShot, ShootPoint.transform.position, Quaternion.identity) as GameObject;
                         ProjectileClone.GetComponent<Rigidbody2D>().AddForce(Vector3.down * projectileForce * 2);
                     }
-                ProjectileClone.tag = "HumanShot";
                 fireRate = fireRateChoice;
             }
         }
@@ -181,7 +180,6 @@ public class DemonControl : MonoBehaviour {
         {
             transform.position = new Vector3(transform.position.x, -0.5F);
         }
-
         if(transform.position.y >= 3.5)
         {
             transform.position = new Vector3(transform.position.x, 3.5F);

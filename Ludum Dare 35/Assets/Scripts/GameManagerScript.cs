@@ -6,10 +6,11 @@ using UnityEngine.SceneManagement;
 [System.Serializable]
 public class TextClass
 {
-    public Text LivesOrKillsLabel, StatusText, LivesOrKillsText, EndGameText, EndGameLevel;
+    public Text LivesOrKillsLabel, StatusText, LivesOrKillsText, EndGameText, EndGameLevel, LevelNumberText, EndGameInstruction;
 }
 
-public class GameManagerScript : CarryOverInfo {
+public class GameManagerScript : MonoBehaviour
+{
 
     GameTimer gameTimer;
     public TextClass textClass;
@@ -26,18 +27,23 @@ public class GameManagerScript : CarryOverInfo {
     private int prevSpawnIndex;
     private bool gameOver;
     public GameObject GameOnScreen, GameOverScreen;
-    private float delayTimer;
+    public float DelayTimer;
 
     void Start ()
     {
-        DemonControlTrue = DemonControlRound;
+        Time.timeScale = 1;
+        DemonControlTrue = CarryOverInfo.DemonControlRound;
         GameOverScreen.SetActive(false);
         numberOfBabies = 0;
         numberOfDemons = 0;
         gameOver = false;
         bSpawn = FindObjectsOfType<BabySpawn>();
         dSpawn = FindObjectsOfType<DemonSpawn>();
-        Lives = StartLives;
+        if(Lives <= 1)
+        {
+            Lives = CarryOverInfo.StartLives;
+        }
+   
         if (DemonControlTrue)
         {
             BabySpawn("");
@@ -50,27 +56,36 @@ public class GameManagerScript : CarryOverInfo {
             DemonSpawn("");
         }
 
-        delayTimer = 3F;
+        DelayTimer = 0.1F;
         gameTimer = FindObjectOfType<GameTimer>();
-        gameTimer.GameTimerF = GameTimerFloat;
+        gameTimer.GameTimerF = CarryOverInfo.GameTimerFloat;
     }
 
-	void Update ()
+    IEnumerator RestartCheck()
     {
-        if(delayTimer >= 0)
-        {
-            delayTimer -= Time.deltaTime;
-        }
-
-        if (gameOver)
-        {
             if (Input.GetButton("Fire1") || Input.GetButton("Fire2"))
             {
+                Time.timeScale = 1;
                 RestartLevel();
             }
-        }
-        if (!gameOver && delayTimer <= 0)
+            yield return null;
+    }
+
+    void SetScreen()
+    {
+        GameOnScreen.SetActive(false);
+        GameOverScreen.SetActive(true);
+    }
+	void Update ()
+    {
+        if(DelayTimer >= 0)
         {
+            DelayTimer -= Time.deltaTime;
+        }
+
+        if (!gameOver && DelayTimer <= 0)
+        {
+            textClass.LevelNumberText.text = CarryOverInfo.LevelNumber.ToString();
             if (DemonControlTrue)
             {
                 textClass.LivesOrKillsLabel.text = "Kills: ";
@@ -79,18 +94,27 @@ public class GameManagerScript : CarryOverInfo {
 
                 if (numberOfBabies <= 0)
                 {
-                    textClass.StatusText.text = "You've Harvested all Souls. Next Level starting Soon.";
-                    LevelNumber++;
-                    StartLives += Kills;
+                    SetScreen();
+                    textClass.EndGameText.text = "You've Harvested all Souls.";
+                    textClass.EndGameInstruction.text = "Press Fire1/2 To Continue";
+                    textClass.EndGameLevel.text = "";
+                    CarryOverInfo.LevelNumber++;
+                    CarryOverInfo.StartLives += Kills;
+                    CarryOverInfo.DemonControlRound = false;
+                    CarryOverInfo.GameTimerFloat += 5F;
                     gameOver = true;
                 }
 
                 if (gameTimer.GameTimerF <= 0)
                 {
-                    textClass.StatusText.text = "You missed some souls! Next level still starting.";
-                    LevelNumber++;
-                    StartLives += Kills;
-                    DemonControlRound = false;
+                    SetScreen();
+                    textClass.EndGameText.text = "You missed some souls!";
+                    textClass.EndGameInstruction.text = "Press Fire1/2 To Continue";
+                    textClass.EndGameLevel.text = "";
+                    CarryOverInfo.LevelNumber++;
+                    CarryOverInfo.StartLives += Kills;
+                    CarryOverInfo.DemonControlRound = false;
+                    CarryOverInfo.GameTimerFloat += 5F;
                     gameOver = true;
                 }
             }
@@ -101,23 +125,30 @@ public class GameManagerScript : CarryOverInfo {
                 textClass.StatusText.text = "Run Away!";
                 if (Lives <= 0)
                 {
-                    Debug.Log("You are nothing!");
-                    GameOnScreen.SetActive(false);
-                    GameOverScreen.SetActive(true);
-                    textClass.StatusText.text = "You died!";
+                    SetScreen();
                     textClass.EndGameText.text = "You survived until Level: ";
-                    textClass.EndGameLevel.text = LevelNumber.ToString();
-                    LevelNumber = 1;
+                    textClass.EndGameLevel.text = CarryOverInfo.LevelNumber.ToString();
+                    textClass.EndGameInstruction.text = "Press Fire1/2 To Restart Game";
+                    CarryOverInfo.LevelNumber = 1;
                     gameOver = true;
                 }
 
                 if (gameTimer.GameTimerF <= 0)
                 {
-                    textClass.StatusText.text = "You survived. Now it's your turn";
-                    DemonControlRound = true;
+                    SetScreen();
+                    textClass.EndGameText.text = "You survived. Now it's your turn";
+                    textClass.EndGameInstruction.text = "Press Fire1/2 To Continue";
+                    textClass.EndGameLevel.text = "";
+                    CarryOverInfo.DemonControlRound = true;
                     gameOver = true;
                 }
             }
+        }
+
+        if (gameOver && DelayTimer <= 0)
+        {
+            StartCoroutine(RestartCheck());
+            Time.timeScale = 0;
         }
 
     }
@@ -144,7 +175,7 @@ public class GameManagerScript : CarryOverInfo {
         }
         else
         {
-            for (int i = 1; i <= LevelNumber; i++)
+            for (int i = 1; i <= CarryOverInfo.LevelNumber; i++)
             {
                 int spawnIndex = Random.Range(0, bSpawn.Length);
                 if (prevSpawnIndex == spawnIndex)
@@ -187,7 +218,7 @@ public class GameManagerScript : CarryOverInfo {
         }
         else
         {
-            for (int i = 1; i <= LevelNumber; i++)
+            for (int i = 1; i <= CarryOverInfo.LevelNumber; i++)
             {
                 int spawnIndex = Random.Range(0, dSpawn.Length);
                 if (prevSpawnIndex == spawnIndex)
