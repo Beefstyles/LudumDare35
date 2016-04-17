@@ -16,7 +16,8 @@ public class DemonControl : MonoBehaviour {
     private float fireRateChoice = 2F;
     private GameObject ProjectileClone;
     public GameObject ShootPoint;
-    public GameObject Projectile;
+    public GameObject ProjectileKillShot;
+    public GameObject ProjectileSlowShot;
     private float projectileForce = 200F;
     private Rigidbody2D demonRigidBody;
     private bool AIMoveRight;
@@ -27,22 +28,33 @@ public class DemonControl : MonoBehaviour {
     public float dirNum;
     public Vector3 movementHeading;
     AngleDirection AngleDir;
+    GameManagerScript gameManager;
 
     void Start ()
     {
         speed = 2F;
         fireRate = 0F;
-        HumanPlayer = true;
         demonRigidBody = GetComponent<Rigidbody2D>();
         AngleDir = FindObjectOfType<AngleDirection>();
+        gameManager = FindObjectOfType<GameManagerScript>();
+        
     }
 	
-	// Update is called once per frame
+
 	void Update ()
     {
+        if (gameManager.DemonControlTrue)
+        {
+            HumanPlayer = true;
+        }
+        else
+        {
+            HumanPlayer = false;
+        }
+
         if (TargetAcquired && !HumanPlayer)
         {
-            TargetShooting();
+            TargetShooting("AI");
         }
         if(fireRate >= 0)
         {
@@ -80,7 +92,7 @@ public class DemonControl : MonoBehaviour {
         }
 	}
 
-    void TargetShooting()
+    void TargetShooting(string origin)
     {
         if (!HumanPlayer)
         {
@@ -96,7 +108,7 @@ public class DemonControl : MonoBehaviour {
                 if (fireRate <= 0)
                 {
                     fireRate = fireRateChoice;
-                    ProjectileClone = Instantiate(Projectile, ShootPoint.transform.position, Quaternion.identity) as GameObject;
+                    ProjectileClone = Instantiate(ProjectileKillShot, ShootPoint.transform.position, Quaternion.identity) as GameObject;
                     ProjectileClone.GetComponent<Rigidbody2D>().AddForce(projectileDirection * projectileForce);
                     fireRate = fireRateChoice;
                 }
@@ -108,8 +120,16 @@ public class DemonControl : MonoBehaviour {
             if (fireRate <= 0)
             {
                 fireRate = fireRateChoice;
-                ProjectileClone = Instantiate(Projectile, ShootPoint.transform.position, Quaternion.identity) as GameObject;
-                ProjectileClone.GetComponent<Rigidbody2D>().AddForce(Vector3.down * projectileForce);
+                if(origin == "Fire1")
+                    {
+                        ProjectileClone = Instantiate(ProjectileKillShot, ShootPoint.transform.position, Quaternion.identity) as GameObject;
+                        ProjectileClone.GetComponent<Rigidbody2D>().AddForce(Vector3.down * projectileForce);
+                    }
+                    else if (origin == "Fire2")
+                    {
+                        ProjectileClone = Instantiate(ProjectileSlowShot, ShootPoint.transform.position, Quaternion.identity) as GameObject;
+                        ProjectileClone.GetComponent<Rigidbody2D>().AddForce(Vector3.down * projectileForce * 2);
+                    }
                 ProjectileClone.tag = "HumanShot";
                 fireRate = fireRateChoice;
             }
@@ -157,9 +177,23 @@ public class DemonControl : MonoBehaviour {
         float x = Input.GetAxis("Horizontal") * Time.deltaTime * speed;
         float y = Input.GetAxis("Vertical") * Time.deltaTime * speed;
         transform.Translate(x, y, 0);
+        if(transform.position.y <= -0.5)
+        {
+            transform.position = new Vector3(transform.position.x, -0.5F);
+        }
+
+        if(transform.position.y >= 3.5)
+        {
+            transform.position = new Vector3(transform.position.x, 3.5F);
+        }
         if (Input.GetButton("Fire1"))
         {
-            TargetShooting();
+            TargetShooting("Fire1");
+        }
+
+        if (Input.GetButton("Fire2"))
+        {
+            TargetShooting("Fire2");
         }
     }
     

@@ -14,14 +14,19 @@ public class GameManagerScript : MonoBehaviour {
     public TextClass textClass;
     DemonControl demonControl;
     Health health;
+    [HideInInspector]
     public bool DemonControlTrue;
     public int Lives, Kills;
+    public bool NightTime;
+    public int numberOfBabies;
+    public int numberOfDemons;
 
 	void Start ()
     {
         gameTimer = FindObjectOfType<GameTimer>();
         gameTimer.GameTimerF = 500;
         DemonControlTrue = false;
+        NightTime = true;
     }
 
 	void Update ()
@@ -30,11 +35,13 @@ public class GameManagerScript : MonoBehaviour {
         {
             textClass.LivesOrKillsLabel.text = "Kills: ";
             textClass.LivesOrKillsText.text = Kills.ToString();
+            textClass.StatusText.text = "Harvest Souls!";
         }
         else
         {
             textClass.LivesOrKillsLabel.text = "Lives: ";
             textClass.LivesOrKillsText.text = Lives.ToString();
+            textClass.StatusText.text = "Run Away!";
         }
     }
 }

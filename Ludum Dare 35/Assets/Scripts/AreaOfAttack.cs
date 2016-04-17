@@ -15,7 +15,7 @@ public class AreaOfAttack : MonoBehaviour {
 
     void OnTriggerEnter2D(Collider2D targetColl2D)
     {
-        if(targetColl2D.gameObject.tag == "Player")
+        if(targetColl2D.gameObject.tag == "Baby")
         {
             demonControl.TargetEnemy = targetColl2D.gameObject;
             demonControl.TargetAcquired = true;
@@ -24,7 +24,7 @@ public class AreaOfAttack : MonoBehaviour {
 
     void OnTriggerStay2D(Collider2D targetColl2D)
     {
-        if (targetColl2D.gameObject.tag == "Player")
+        if (targetColl2D.gameObject.tag == "Baby")
         {
             if (targetColl2D.gameObject != null)
             {
@@ -38,7 +38,7 @@ public class AreaOfAttack : MonoBehaviour {
 
     void OnTriggerExit2D(Collider2D targetColl2D)
     {
-        if (targetColl2D.gameObject.tag == "Player")
+        if (targetColl2D.gameObject.tag == "Baby")
         {
             demonControl.TargetEnemy = null;
             demonControl.TargetAcquired = false;

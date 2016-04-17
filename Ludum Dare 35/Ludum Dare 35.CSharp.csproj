@@ -72,6 +72,9 @@
     <Compile Include="Assets\Scripts\AngleDirection.cs" />
     <Compile Include="Assets\Scripts\AreaOfAttack.cs" />
     <Compile Include="Assets\Scripts\AreaOfDetection.cs" />
+    <Compile Include="Assets\Scripts\CameraXMove.cs" />
+    <Compile Include="Assets\Scripts\CarryOverInfo.cs" />
+    <Compile Include="Assets\Scripts\DayNightCycle.cs" />
     <Compile Include="Assets\Scripts\DeathByTime.cs" />
     <Compile Include="Assets\Scripts\DemonControl.cs" />
     <Compile Include="Assets\Scripts\Examples\Camera2DFollow.cs" />

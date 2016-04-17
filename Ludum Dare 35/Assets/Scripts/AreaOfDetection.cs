@@ -15,7 +15,7 @@ public class AreaOfDetection : MonoBehaviour {
 
     void OnTriggerEnter2D(Collider2D targetColl2D)
     {
-        if (targetColl2D.gameObject.tag == "Player")
+        if (targetColl2D.gameObject.tag == "Baby")
         {
             demonControl.TargetToMoveTo = targetColl2D.gameObject;
             demonControl.PlayerFound = true;
@@ -24,7 +24,7 @@ public class AreaOfDetection : MonoBehaviour {
 
     void OnTriggerStay2D(Collider2D targetColl2D)
     {
-        if (targetColl2D.gameObject.tag == "Player")
+        if (targetColl2D.gameObject.tag == "Baby")
         {
             if (targetColl2D.gameObject != null)
             {
@@ -38,7 +38,7 @@ public class AreaOfDetection : MonoBehaviour {
 
     void OnTriggerExit2D(Collider2D targetColl2D)
     {
-        if (targetColl2D.gameObject.tag == "Player")
+        if (targetColl2D.gameObject.tag == "Baby")
         {
             demonControl.TargetToMoveTo = null;
             demonControl.PlayerFound = false;

@@ -47,7 +47,8 @@ public class PlatformerCharacterControl : MonoBehaviour {
             if (colliders[i].gameObject != gameObject)
                 grounded = true;
         }
-        
+
+
         playerAnimator.SetBool("Ground", grounded);
 
         // Set the vertical animation

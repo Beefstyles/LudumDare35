@@ -8,7 +8,7 @@ public class WrapAroundTrigger : MonoBehaviour {
 
     void OnTriggerEnter2D(Collider2D coll)
     {
-        if(coll.gameObject.tag == "Enemy" || coll.gameObject.tag == "Player")
+        if(coll.gameObject.tag == "Demon" || coll.gameObject.tag == "Baby")
         {
             if (gameObject.name == "WestTrigger")
             {
