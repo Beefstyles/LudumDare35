@@ -8,6 +8,7 @@ public class Health : MonoBehaviour {
     private bool playerDead;
     private GameObject playerCharDead;
     public GameObject PlayerDeadCorpse;
+    GameManagerScript gameManager;
 
 
     void Start()
@@ -15,13 +16,26 @@ public class Health : MonoBehaviour {
         playerDead = false;
         PlayerHealth = 1;
         currentPlayerHealth = PlayerHealth;
+        gameManager = FindObjectOfType<GameManagerScript>();
     }
 
-	public void TakeDamage(int amount)
+    void Update()
+    {
+        if (!gameManager.DemonControlTrue)
+        {
+            gameManager.Lives = currentPlayerHealth;
+        }
+    }
+
+	public void TakeDamage(int amount, string originator)
     {
         currentPlayerHealth -= amount;
         if(currentPlayerHealth <= 0 && !playerDead)
         {
+            if(originator == "HumanShot")
+            {
+                gameManager.Kills++;
+            }
             playerDead = true;
             StartCoroutine("PlayerDeath");
         }

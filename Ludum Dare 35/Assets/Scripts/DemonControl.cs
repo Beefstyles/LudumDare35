@@ -110,6 +110,7 @@ public class DemonControl : MonoBehaviour {
                 fireRate = fireRateChoice;
                 ProjectileClone = Instantiate(Projectile, ShootPoint.transform.position, Quaternion.identity) as GameObject;
                 ProjectileClone.GetComponent<Rigidbody2D>().AddForce(Vector3.down * projectileForce);
+                ProjectileClone.tag = "HumanShot";
                 fireRate = fireRateChoice;
             }
         }

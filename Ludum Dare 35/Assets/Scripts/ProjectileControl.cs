@@ -6,10 +6,12 @@ public class ProjectileControl : MonoBehaviour {
     private int attackDamage = 1;
     private float lifeTime;
     Health health;
+    GameManagerScript gameManager;
 
 	void Start ()
     {
         lifeTime = 4F;
+        gameManager = FindObjectOfType<GameManagerScript>();
     }
 	
 	
@@ -36,7 +38,7 @@ public class ProjectileControl : MonoBehaviour {
         if(coll.gameObject.tag == "Player")
         {
             health = coll.GetComponent<Health>();
-            health.TakeDamage(attackDamage);
+            health.TakeDamage(attackDamage, gameObject.tag);
             KillObject();
         }
     }
