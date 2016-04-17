@@ -8,7 +8,7 @@ public class TextClass
     public Text LivesOrKillsLabel, StatusText, LivesOrKillsText;
 }
 
-public class GameManagerScript : MonoBehaviour {
+public class GameManagerScript : CarryOverInfo {
 
     GameTimer gameTimer;
     public TextClass textClass;
@@ -20,13 +20,20 @@ public class GameManagerScript : MonoBehaviour {
     public bool NightTime;
     public int numberOfBabies;
     public int numberOfDemons;
+    public GameObject Demon;
+    public GameObject Babies;
+    BabySpawn[] bSpawn;
+    DemonSpawn[] dSpawn;
+    private int prevSpawnIndex;
 
-	void Start ()
+    void Start ()
     {
         gameTimer = FindObjectOfType<GameTimer>();
-        gameTimer.GameTimerF = 500;
+        gameTimer.GameTimerF = 40;
         DemonControlTrue = false;
         NightTime = true;
+        numberOfBabies = 0;
+        numberOfDemons = 0;
     }
 
 	void Update ()
@@ -44,4 +51,28 @@ public class GameManagerScript : MonoBehaviour {
             textClass.StatusText.text = "Run Away!";
         }
     }
+
+    void BabySpawn()
+    {
+        for (int i = 1; i <= levelNumber; i++)
+        {
+            int spawnIndex = Random.Range(0, bSpawn.Length);
+            if(prevSpawnIndex == spawnIndex)
+            {
+                if (spawnIndex < bSpawn.Length)
+                {
+                    spawnIndex++;
+                }
+                else
+                {
+                    spawnIndex--;
+                }
+            }
+            Instantiate(Babies, bSpawn[spawnIndex].transform.position, Quaternion.identity);
+            numberOfBabies++;
+            prevSpawnIndex = spawnIndex;
+        }
+    }
+
+    
 }
