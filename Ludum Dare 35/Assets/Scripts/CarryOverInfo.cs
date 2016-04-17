@@ -3,13 +3,14 @@ using System.Collections;
 
 public class CarryOverInfo : MonoBehaviour {
 
-    public static int levelNumber;
-    public static bool DemonControl;
+    public static int LevelNumber;
+    public static bool DemonControlRound;
+    public static int StartLives;
+    public static float GameTimerFloat;
 
-    void Start ()
+    void Awake ()
     {
-        DontDestroyOnLoad(this.gameObject);
+        Debug.Log(DemonControlRound.ToString());
+        DontDestroyOnLoad(gameObject);
 	}
-	
-	
 }

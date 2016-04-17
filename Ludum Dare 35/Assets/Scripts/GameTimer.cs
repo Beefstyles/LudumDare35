@@ -16,8 +16,6 @@ public class GameTimer : MonoBehaviour {
     public float GameTimerF;
     public TimerText timerText;
 
-	
-	// Update is called once per frame
 	void Update ()
     {
 	    if(GameTimerF >= 0)

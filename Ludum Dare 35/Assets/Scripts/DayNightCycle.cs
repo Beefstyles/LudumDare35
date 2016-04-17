@@ -17,12 +17,12 @@ public class DayNightCycle : MonoBehaviour {
 	
 	void Update ()
     {
-        if (gameManager.NightTime)
+        if (gameManager.DemonControlTrue)
         {
             SunMoon.color = Color.grey;
         }
 
-        if (!gameManager.NightTime)
+        if (!gameManager.DemonControlTrue)
         {
             SunMoon.color = Color.red;
         }

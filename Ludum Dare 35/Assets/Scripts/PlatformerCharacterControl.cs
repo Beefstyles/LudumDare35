@@ -3,8 +3,7 @@ using System.Collections;
 
 public class PlatformerCharacterControl : MonoBehaviour {
 
-    [SerializeField]
-    private float maxSpeed = 10f;                    // The fastest the player can travel in the x axis.
+    public float maxSpeed = 10f;                    // The fastest the player can travel in the x axis.
     [SerializeField]
     private float jumpForce = 400f;                  // Amount of force added when the player jumps.
     [Range(0, 1)]
@@ -23,6 +22,8 @@ public class PlatformerCharacterControl : MonoBehaviour {
     private Rigidbody2D playerRigidBody;
     private bool m_FacingRight = true;  // For determining which way the player is currently facing.
     private Animator playerAnimator;
+
+    private float speedResetTimer;
 
 
     private void Awake()
@@ -54,6 +55,25 @@ public class PlatformerCharacterControl : MonoBehaviour {
         // Set the vertical animation
         playerAnimator.SetFloat("vSpeed", playerRigidBody.velocity.y);
     }
+
+    void Update()
+    {
+        if (maxSpeed < 10F && speedResetTimer <= 0F)
+        {
+            speedResetTimer = 3F;
+        }
+
+        if(speedResetTimer >= 0)
+        {
+            speedResetTimer -= Time.deltaTime;
+        }
+
+        if(speedResetTimer <= 0)
+        {
+            maxSpeed = 10F;
+        }
+    }
+
 
 
     public void Move(float move, bool crouch, bool jump)

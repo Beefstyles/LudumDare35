@@ -88,6 +88,7 @@
     <Compile Include="Assets\Scripts\Platformer2DCharacterControl.cs" />
     <Compile Include="Assets\Scripts\PlatformerCharacterControl.cs" />
     <Compile Include="Assets\Scripts\ProjectileControl.cs" />
+    <Compile Include="Assets\Scripts\StartGame.cs" />
     <Compile Include="Assets\Scripts\WrapAroundTrigger.cs" />
   </ItemGroup>
   <ItemGroup>

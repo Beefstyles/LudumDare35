@@ -32,7 +32,7 @@ public class Health : MonoBehaviour {
         currentPlayerHealth -= amount;
         if(currentPlayerHealth <= 0 && !playerDead)
         {
-            if(originator == "HumanShot")
+            if(gameManager.DemonControlTrue)
             {
                 gameManager.Kills++;
             }

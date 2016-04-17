@@ -7,8 +7,9 @@ public class ProjectileControl : MonoBehaviour {
     private float lifeTime;
     Health health;
     GameManagerScript gameManager;
+    PlatformerCharacterControl platformerCharacterControl;
 
-	void Start ()
+    void Start ()
     {
         lifeTime = 4F;
         gameManager = FindObjectOfType<GameManagerScript>();
@@ -37,8 +38,23 @@ public class ProjectileControl : MonoBehaviour {
     {
         if(coll.gameObject.tag == "Baby")
         {
-            health = coll.GetComponent<Health>();
-            health.TakeDamage(attackDamage, gameObject.tag);
+            if(gameObject.tag == "KillShot")
+            {
+                health = coll.GetComponent<Health>();
+                health.TakeDamage(attackDamage, gameObject.tag);
+            }
+
+            else if(gameObject.tag == "SlowShot")
+            {
+                platformerCharacterControl = coll.GetComponentInParent<PlatformerCharacterControl>();
+                if(platformerCharacterControl.maxSpeed >= 5F)
+                {
+                    platformerCharacterControl.maxSpeed = 5F;
+                }
+                    
+            }
+            
+            
             KillObject();
         }
     }
