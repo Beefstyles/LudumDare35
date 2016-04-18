@@ -10,7 +10,6 @@ public class CarryOverInfo : MonoBehaviour {
 
     void Awake ()
     {
-        Debug.Log(DemonControlRound.ToString());
         DontDestroyOnLoad(gameObject);
 	}
 }

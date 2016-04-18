@@ -18,7 +18,7 @@ public class DemonControl : MonoBehaviour {
     public GameObject ShootPoint;
     public GameObject ProjectileKillShot;
     public GameObject ProjectileSlowShot;
-    private float projectileForce = 400F;
+    private float projectileForce = 10F;
     private Rigidbody2D demonRigidBody;
     private bool AIMoveRight;
     private float movementReset = 5F;
@@ -109,7 +109,8 @@ public class DemonControl : MonoBehaviour {
                 {
                     fireRate = fireRateChoice;
                     ProjectileClone = Instantiate(ProjectileKillShot, ShootPoint.transform.position, Quaternion.identity) as GameObject;
-                    ProjectileClone.GetComponent<Rigidbody2D>().AddForce(projectileDirection * projectileForce);
+                    //ProjectileClone.GetComponent<Rigidbody2D>().AddForce(projectileDirection * projectileForce);
+                    ProjectileClone.GetComponent<Rigidbody2D>().velocity = (projectileDirection * projectileForce);
                     fireRate = fireRateChoice;
                 }
             }
@@ -123,13 +124,13 @@ public class DemonControl : MonoBehaviour {
                 if(origin == "Fire1")
                     {
                         ProjectileClone = Instantiate(ProjectileKillShot, transform.position, transform.rotation) as GameObject;
-                        ProjectileClone.GetComponent<Rigidbody2D>().AddForce(Vector3.down * projectileForce);
+                        ProjectileClone.GetComponent<Rigidbody2D>().velocity = (Vector3.down * projectileForce);
                     }
                     else if (origin == "Fire2")
                     {
                         ProjectileClone = Instantiate(ProjectileSlowShot, ShootPoint.transform.position, Quaternion.identity) as GameObject;
-                        ProjectileClone.GetComponent<Rigidbody2D>().AddForce(Vector3.down * projectileForce * 2);
-                    }
+                    ProjectileClone.GetComponent<Rigidbody2D>().velocity = (Vector3.down * projectileForce);
+                }
                 fireRate = fireRateChoice;
             }
         }

@@ -3,7 +3,7 @@ using System.Collections;
 
 public class PlatformerCharacterControl : MonoBehaviour {
 
-    public float maxSpeed = 10f;                    // The fastest the player can travel in the x axis.
+    public float maxSpeed = 8f;                    // The fastest the player can travel in the x axis.
     [SerializeField]
     private float jumpForce = 400f;                  // Amount of force added when the player jumps.
     [Range(0, 1)]
