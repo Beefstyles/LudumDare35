@@ -28,6 +28,7 @@ public class GameManagerScript : MonoBehaviour
     private bool gameOver;
     public GameObject GameOnScreen, GameOverScreen;
     public float DelayTimer;
+    public AudioSource[] gameMusic;
 
     void Start ()
     {
@@ -39,7 +40,8 @@ public class GameManagerScript : MonoBehaviour
         gameOver = false;
         bSpawn = FindObjectsOfType<BabySpawn>();
         dSpawn = FindObjectsOfType<DemonSpawn>();
-        if(Lives <= 1)
+        gameMusic = GetComponents<AudioSource>();
+        if (Lives <= 1)
         {
             Lives = CarryOverInfo.StartLives;
         }
@@ -48,17 +50,20 @@ public class GameManagerScript : MonoBehaviour
         {
             BabySpawn("");
             DemonSpawn("Player");
+            gameMusic[1].Play();
         }
 
         else if (!DemonControlTrue)
         {
             BabySpawn("Player");
             DemonSpawn("");
+            gameMusic[0].Play();
         }
 
         DelayTimer = 0.1F;
         gameTimer = FindObjectOfType<GameTimer>();
         gameTimer.GameTimerF = CarryOverInfo.GameTimerFloat;
+        
     }
 
     IEnumerator RestartCheck()
@@ -78,6 +83,10 @@ public class GameManagerScript : MonoBehaviour
     }
 	void Update ()
     {
+        if(Input.GetKey("escape"))
+        {
+            Application.Quit();
+        }
         if(DelayTimer >= 0)
         {
             DelayTimer -= Time.deltaTime;

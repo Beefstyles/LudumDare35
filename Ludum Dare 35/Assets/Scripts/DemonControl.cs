@@ -18,7 +18,7 @@ public class DemonControl : MonoBehaviour {
     public GameObject ShootPoint;
     public GameObject ProjectileKillShot;
     public GameObject ProjectileSlowShot;
-    private float projectileForce = 10F;
+    public float ProjectileForce = 10F;
     private Rigidbody2D demonRigidBody;
     private bool AIMoveRight;
     private float movementReset = 5F;
@@ -37,7 +37,6 @@ public class DemonControl : MonoBehaviour {
         demonRigidBody = GetComponent<Rigidbody2D>();
         AngleDir = FindObjectOfType<AngleDirection>();
         gameManager = FindObjectOfType<GameManagerScript>();
-        
     }
 	
 
@@ -109,8 +108,7 @@ public class DemonControl : MonoBehaviour {
                 {
                     fireRate = fireRateChoice;
                     ProjectileClone = Instantiate(ProjectileKillShot, ShootPoint.transform.position, Quaternion.identity) as GameObject;
-                    //ProjectileClone.GetComponent<Rigidbody2D>().AddForce(projectileDirection * projectileForce);
-                    ProjectileClone.GetComponent<Rigidbody2D>().velocity = (projectileDirection * projectileForce);
+                    ProjectileClone.GetComponent<Rigidbody2D>().velocity = (projectileDirection * ProjectileForce);
                     fireRate = fireRateChoice;
                 }
             }
@@ -123,13 +121,11 @@ public class DemonControl : MonoBehaviour {
                 fireRate = fireRateChoice;
                 if(origin == "Fire1")
                     {
-                        ProjectileClone = Instantiate(ProjectileKillShot, transform.position, transform.rotation) as GameObject;
-                        ProjectileClone.GetComponent<Rigidbody2D>().velocity = (Vector3.down * projectileForce);
+                        ProjectileClone = Instantiate(ProjectileKillShot, transform.position, Quaternion.identity) as GameObject;
                     }
                     else if (origin == "Fire2")
                     {
                         ProjectileClone = Instantiate(ProjectileSlowShot, ShootPoint.transform.position, Quaternion.identity) as GameObject;
-                    ProjectileClone.GetComponent<Rigidbody2D>().velocity = (Vector3.down * projectileForce);
                 }
                 fireRate = fireRateChoice;
             }

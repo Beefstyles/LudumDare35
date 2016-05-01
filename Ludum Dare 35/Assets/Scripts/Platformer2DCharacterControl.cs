@@ -20,13 +20,6 @@ public class Platformer2DCharacterControl : MonoBehaviour {
     {
         character = GetComponent<PlatformerCharacterControl>();
         gameManager = FindObjectOfType<GameManagerScript>();
-  
-
-    }
-
-    void Start()
-    {
-        
     }
 
     private void Update()

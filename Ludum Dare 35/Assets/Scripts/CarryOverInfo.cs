@@ -8,7 +8,7 @@ public class CarryOverInfo : MonoBehaviour {
     public static int StartLives;
     public static float GameTimerFloat;
 
-    void Awake ()
+    void Start ()
     {
         DontDestroyOnLoad(gameObject);
 	}

@@ -7,7 +7,7 @@ public class DeathByTime : MonoBehaviour {
 
     void Start()
     {
-        lifeTime = 3F;
+        lifeTime = .5F;
     }
 
     void Update()

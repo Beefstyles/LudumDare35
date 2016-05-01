@@ -8,11 +8,20 @@ public class ProjectileControl : MonoBehaviour {
     Health health;
     GameManagerScript gameManager;
     PlatformerCharacterControl platformerCharacterControl;
+    DemonControl demonControl;
+    public AudioSource ShootAudio;
 
     void Start ()
     {
         lifeTime = 4F;
         gameManager = FindObjectOfType<GameManagerScript>();
+        demonControl = FindObjectOfType<DemonControl>();
+        ShootAudio = GetComponent<AudioSource>();
+        if (gameManager.DemonControlTrue)
+        {
+            GetComponent<Rigidbody2D>().velocity = (Vector3.down * demonControl.ProjectileForce);
+        }
+        ShootAudio.Play();
     }
 	
 	
@@ -49,9 +58,9 @@ public class ProjectileControl : MonoBehaviour {
                 if (gameObject.tag == "SlowShot")
                 {
                     platformerCharacterControl = coll.GetComponentInParent<PlatformerCharacterControl>();
-                    if (platformerCharacterControl.maxSpeed >= 5F)
+                    if (platformerCharacterControl.maxSpeed >= 4F)
                     {
-                        platformerCharacterControl.maxSpeed = 5F;
+                        platformerCharacterControl.maxSpeed = 4F;
                     }
 
                 }

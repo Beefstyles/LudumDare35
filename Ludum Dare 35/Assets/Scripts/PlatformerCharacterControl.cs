@@ -58,7 +58,7 @@ public class PlatformerCharacterControl : MonoBehaviour {
 
     void Update()
     {
-        if (maxSpeed < 10F && speedResetTimer <= 0F)
+        if (maxSpeed < 8F && speedResetTimer <= 0F)
         {
             speedResetTimer = 3F;
         }
@@ -70,7 +70,7 @@ public class PlatformerCharacterControl : MonoBehaviour {
 
         if(speedResetTimer <= 0)
         {
-            maxSpeed = 10F;
+            maxSpeed = 8F;
         }
     }
 
